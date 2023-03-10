@@ -1,0 +1,10 @@
+version: "3.7"
+
+services:
+  krakend:
+    image: devopsfaith/krakend
+    ports:
+    - 8080:8080
+    volumes:
+    - .:/etc/krakend
+    command: run -dc /etc/krakend/krakend.json
