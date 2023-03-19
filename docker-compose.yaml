@@ -1,0 +1,51 @@
+version: "3.7"
+
+services:
+  builder:
+    image: krakend/builder:2.2.1
+    volumes:
+    - .:/app
+    working_dir: /app
+    command:
+    - sh
+    - -c
+    - |
+      go get
+      go build -buildmode=plugin -o authorization-server.so .
+
+  server:
+    image: devopsfaith/krakend
+    ports:
+    - 8080:8080
+    volumes:
+    - .:/etc/krakend
+    depends_on:
+      objectstore:
+        condition: service_healthy
+
+    environment:
+      AWS_ACCESS_KEY_ID: theRootUsername
+      AWS_SECRET_ACCESS_KEY: theRootPassword
+      AWS_DEFAULT_REGION: us-east-1
+      AWS_S3_ENDPOINT: http://objectstore:9000
+      AWS_S3_BUCKET: storage
+    command: run -dc /etc/krakend/krakend.json
+
+  objectstore:
+    image: minio/minio
+    ports:
+    - 9000:9000
+    - 39451:39451
+    volumes:
+    - ./test/data:/data
+    environment:
+      MINIO_ROOT_USER: theRootUsername
+      MINIO_ROOT_PASSWORD: theRootPassword
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/cluster"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    command: server --address 0.0.0.0:9000 /data
+
+  
