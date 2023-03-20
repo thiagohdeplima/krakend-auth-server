@@ -14,11 +14,17 @@ type ValidateCredentials interface {
 	ValidateCredentials(_ context.Context, clientId, clientSecret string) error
 }
 
-type Authenticator struct {
-	repo repository.Repository
+// Repository is the interface that must be implemented
+// by clientId and ClientSecret datasources
+type Repository interface {
+	GetSecretByClientID(string) (string, error)
 }
 
-func NewAuthenticator(r repository.Repository) *Authenticator {
+type Authenticator struct {
+	repo Repository
+}
+
+func NewAuthenticator(r Repository) *Authenticator {
 	return &Authenticator{r}
 }
 
