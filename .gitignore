@@ -1,2 +1,4 @@
 mocks/*
 *.so
+cover.html
+cover.out
