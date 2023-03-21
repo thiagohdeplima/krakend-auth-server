@@ -2,10 +2,7 @@ test: mock
 	go test -v ./...
 
 mock:
-ifeq ($(shell test -e ~/go/bin/mockery1 && echo -n "yes"), "yes")
-go install github.com/vektra/mockery/v2
-endif
-
+	@go install github.com/vektra/mockery/v2@v2.23.1
 	@~/go/bin/mockery --all
 
 build:
