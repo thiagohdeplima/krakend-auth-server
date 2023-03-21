@@ -17,7 +17,7 @@ func Test_TokenIssuer_Run(t *testing.T) {
 
 	t.Run("when ValidateCredentials returns error return error", func(t *testing.T) {
 		auth := mocks.NewValidateCredentials(t)
-		issr := mocks.NewTokenIssuer(t)
+		issr := mocks.NewEmitToken(t)
 		target := NewTokenIssuer(auth, issr)
 
 		auth.
