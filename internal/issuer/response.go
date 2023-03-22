@@ -6,5 +6,4 @@ type SucessResponse struct {
 	AccessToken string
 	TokenType   string
 	ExpiresIn   int
-	Scope       string
 }

@@ -1,11 +1,13 @@
 package issuer
 
-import (
-	"fmt"
-)
+type EmptyKeyError struct{}
 
 type ClientWithoutKeyPairError struct{}
 
+func (e *EmptyKeyError) Error() string {
+	return "one or both keys are empty"
+}
+
 func (e *ClientWithoutKeyPairError) Error() string {
-	return fmt.Sprint("the client doesn't have a keypair")
+	return "the client doesn't have a keypair"
 }
