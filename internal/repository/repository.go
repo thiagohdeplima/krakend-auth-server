@@ -1,6 +1,9 @@
 package repository
 
-import "os"
+import (
+	"fmt"
+	"os"
+)
 
 type Repository struct{}
 
@@ -13,8 +16,11 @@ func (r *Repository) GetSecretByClientID(string) (string, error) {
 }
 
 func (r *Repository) GetKeypairByClientID(string) (privkey, pubkey string, _ error) {
-	priKey, _ := os.ReadFile("../../test/data/id_ecdsa")
-	pubKey, _ := os.ReadFile("../../test/data/id_ecdsa.pub")
+	fmt.Println(os.Getwd())
+	priKey, _ := os.ReadFile("/etc/krakend/test/data/id_ecdsa")
+	pubKey, _ := os.ReadFile("/etc/krakend/test/data/id_ecdsa.pub")
+
+	fmt.Println(priKey, pubKey)
 
 	return string(priKey), string(pubKey), nil
 }

@@ -32,6 +32,7 @@ func (s *Server) Run(w http.ResponseWriter, req *http.Request) {
 }
 
 func (s *Server) serveToken(w http.ResponseWriter, req *http.Request) {
+	resp, err := s.usecase.Run(req.Context(), "abc123", "abc123")
 
-	fmt.Fprintf(w, "%q requested", req.URL.Path)
+	fmt.Fprintf(w, "%+v --> %+v", resp, err)
 }
