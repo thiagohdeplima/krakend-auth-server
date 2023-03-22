@@ -2,3 +2,4 @@ mocks/*
 *.so
 cover.html
 cover.out
+test/data/*
