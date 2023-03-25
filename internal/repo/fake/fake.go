@@ -1,8 +1,10 @@
-package repo
+package fake
 
 import (
 	"fmt"
 	"os"
+
+	"github.com/thiagohdeplima/krakend-auth-server/internal/repo"
 )
 
 type FakeRepository struct{}
@@ -13,7 +15,7 @@ func NewFakeRepository() *FakeRepository {
 
 func (r *FakeRepository) GetSecretByClientID(clientId string) (string, error) {
 	if clientId == "" {
-		return "", &KeyNotFoundError{}
+		return "", &repo.KeyNotFoundError{}
 	}
 
 	return "abc123", nil
