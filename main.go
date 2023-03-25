@@ -26,7 +26,7 @@ func (r registerer) RegisterHandlers(f func(
 }
 
 func (r registerer) registerHandlers(_ context.Context, extra map[string]interface{}, handler http.Handler) (http.Handler, error) {
-	var rep = repository.NewRepository()
+	var rep = repository.NewFakeRepository()
 
 	var val = authenticator.NewAuthenticator(rep)
 	var iss = issuer.NewTokenEmissor(rep)

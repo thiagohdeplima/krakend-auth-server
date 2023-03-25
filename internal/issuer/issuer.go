@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt"
+	"github.com/thiagohdeplima/krakend-auth-server/internal/repository"
 	"golang.org/x/crypto/ssh"
 )
 
@@ -16,17 +17,11 @@ type EmitToken interface {
 	EmitToken(clientId string) (SucessResponse, error)
 }
 
-// Repository is the interface that must be implemented
-// by any keypair datasource
-type IssuerRepository interface {
-	GetKeypairByClientID(string) (privkey, pubkey string, _ error)
-}
-
 type TokenEmissor struct {
-	repo IssuerRepository
+	repo repository.KeypairRepository
 }
 
-func NewTokenEmissor(repo IssuerRepository) *TokenEmissor {
+func NewTokenEmissor(repo repository.KeypairRepository) *TokenEmissor {
 	return &TokenEmissor{repo}
 }
 

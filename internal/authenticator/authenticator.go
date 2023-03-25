@@ -1,3 +1,5 @@
+// packate authenticator have all the things that we need
+// to perform clientId and clientSecret validation
 package authenticator
 
 import (
@@ -14,17 +16,13 @@ type ValidateCredentials interface {
 	ValidateCredentials(_ context.Context, clientId, clientSecret string) error
 }
 
-// Repository is the interface that must be implemented
-// by clientId and ClientSecret datasources
-type Repository interface {
-	GetSecretByClientID(string) (string, error)
-}
-
 type Authenticator struct {
-	repo Repository
+	repo repository.ClientSecretRepository
 }
 
-func NewAuthenticator(r Repository) *Authenticator {
+// NewAuthenticator generates a instance of Authenticator, that implements
+
+func NewAuthenticator(r repository.ClientSecretRepository) *Authenticator {
 	return &Authenticator{r}
 }
 
