@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/thiagohdeplima/krakend-auth-server/internal/authenticator"
+	"github.com/thiagohdeplima/krakend-auth-server/internal/auth"
 	"github.com/thiagohdeplima/krakend-auth-server/internal/issuer"
 	"github.com/thiagohdeplima/krakend-auth-server/mocks"
 )
@@ -16,25 +16,25 @@ func Test_TokenIssuer_Run(t *testing.T) {
 	var ctx = context.Background()
 
 	t.Run("when ValidateCredentials returns error return error", func(t *testing.T) {
-		auth := mocks.NewValidateCredentials(t)
+		validator := mocks.NewValidateCredentials(t)
 		issr := mocks.NewEmitToken(t)
-		target := NewTokenIssuer(auth, issr)
+		target := NewTokenIssuer(validator, issr)
 
-		auth.
+		validator.
 			On("ValidateCredentials", ctx, cid, cst).
-			Return(&authenticator.InvalidCredentialsError{})
+			Return(&auth.InvalidCredentialsError{})
 
 		_, actualErr := target.Run(ctx, cid, cst)
 
-		assert.ErrorIs(t, actualErr, &authenticator.InvalidCredentialsError{})
+		assert.ErrorIs(t, actualErr, &auth.InvalidCredentialsError{})
 	})
 
 	t.Run("when TokenIssuer returns error return error", func(t *testing.T) {
-		auth := mocks.NewValidateCredentials(t)
+		validator := mocks.NewValidateCredentials(t)
 		issr := mocks.NewEmitToken(t)
-		target := NewTokenIssuer(auth, issr)
+		target := NewTokenIssuer(validator, issr)
 
-		auth.
+		validator.
 			On("ValidateCredentials", ctx, cid, cst).
 			Return(nil)
 

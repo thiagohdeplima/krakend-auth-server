@@ -1,6 +1,6 @@
 // packate authenticator have all the things that we need
 // to perform clientId and clientSecret validation
-package authenticator
+package auth
 
 import (
 	"context"

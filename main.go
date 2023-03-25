@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/thiagohdeplima/krakend-auth-server/internal/authenticator"
+	"github.com/thiagohdeplima/krakend-auth-server/internal/auth"
 	"github.com/thiagohdeplima/krakend-auth-server/internal/issuer"
 	"github.com/thiagohdeplima/krakend-auth-server/internal/repo"
 	"github.com/thiagohdeplima/krakend-auth-server/internal/server"
@@ -28,7 +28,7 @@ func (r registerer) RegisterHandlers(f func(
 func (r registerer) registerHandlers(_ context.Context, extra map[string]interface{}, handler http.Handler) (http.Handler, error) {
 	var rep = repo.NewFakeRepository()
 
-	var val = authenticator.NewAuthenticator(rep)
+	var val = auth.NewAuthenticator(rep)
 	var iss = issuer.NewTokenEmissor(rep)
 
 	var uc = usecase.NewTokenIssuer(val, iss)

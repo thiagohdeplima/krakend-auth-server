@@ -3,16 +3,16 @@ package usecase
 import (
 	"context"
 
-	"github.com/thiagohdeplima/krakend-auth-server/internal/authenticator"
+	"github.com/thiagohdeplima/krakend-auth-server/internal/auth"
 	"github.com/thiagohdeplima/krakend-auth-server/internal/issuer"
 )
 
 type TokenIssuer struct {
-	v authenticator.ValidateCredentials
+	v auth.ValidateCredentials
 	e issuer.EmitToken
 }
 
-func NewTokenIssuer(v authenticator.ValidateCredentials, e issuer.EmitToken) *TokenIssuer {
+func NewTokenIssuer(v auth.ValidateCredentials, e issuer.EmitToken) *TokenIssuer {
 	return &TokenIssuer{v, e}
 }
 
