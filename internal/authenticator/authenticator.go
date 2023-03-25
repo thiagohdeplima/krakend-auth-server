@@ -5,7 +5,7 @@ package authenticator
 import (
 	"context"
 
-	"github.com/thiagohdeplima/krakend-auth-server/internal/repository"
+	repo "github.com/thiagohdeplima/krakend-auth-server/internal/repo"
 )
 
 // ValidateCredentials is the interface implemented by any class used
@@ -17,12 +17,12 @@ type ValidateCredentials interface {
 }
 
 type Authenticator struct {
-	repo repository.ClientSecretRepository
+	repo repo.ClientSecretRepository
 }
 
 // NewAuthenticator generates a instance of Authenticator, that implements
 
-func NewAuthenticator(r repository.ClientSecretRepository) *Authenticator {
+func NewAuthenticator(r repo.ClientSecretRepository) *Authenticator {
 	return &Authenticator{r}
 }
 
@@ -34,7 +34,7 @@ func (a Authenticator) ValidateCredentials(_ context.Context, clientId, clientSe
 		default:
 			return err
 
-		case *repository.KeyNotFoundError:
+		case *repo.KeyNotFoundError:
 			return &InvalidCredentialsError{}
 		}
 	}

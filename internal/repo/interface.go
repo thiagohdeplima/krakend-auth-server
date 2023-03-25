@@ -1,4 +1,4 @@
-package repository
+package repo
 
 // Repository is the interface that must be implemented
 // by any keypair datasource

@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt"
-	"github.com/thiagohdeplima/krakend-auth-server/internal/repository"
+	repo "github.com/thiagohdeplima/krakend-auth-server/internal/repo"
 	"golang.org/x/crypto/ssh"
 )
 
@@ -18,10 +18,10 @@ type EmitToken interface {
 }
 
 type TokenEmissor struct {
-	repo repository.KeypairRepository
+	repo repo.KeypairRepository
 }
 
-func NewTokenEmissor(repo repository.KeypairRepository) *TokenEmissor {
+func NewTokenEmissor(repo repo.KeypairRepository) *TokenEmissor {
 	return &TokenEmissor{repo}
 }
 

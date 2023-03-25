@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/thiagohdeplima/krakend-auth-server/internal/repository"
+	repo "github.com/thiagohdeplima/krakend-auth-server/internal/repo"
 	"github.com/thiagohdeplima/krakend-auth-server/mocks"
 )
 
@@ -15,12 +15,12 @@ func Test_Authenticator_ValidateCredentials(t *testing.T) {
 	var clientSecret = "clientSecret"
 
 	t.Run("when clientID doesn't exists returns error", func(t *testing.T) {
-		var repo = mocks.NewRepository(t)
-		var auth = NewAuthenticator(repo)
+		var fake = mocks.NewRepository(t)
+		var auth = NewAuthenticator(fake)
 
-		repo.
+		fake.
 			On("GetSecretByClientID", clientID).
-			Return("", &repository.KeyNotFoundError{})
+			Return("", &repo.KeyNotFoundError{})
 
 		actualErr := auth.ValidateCredentials(context.TODO(), clientID, clientSecret)
 
@@ -28,11 +28,11 @@ func Test_Authenticator_ValidateCredentials(t *testing.T) {
 	})
 
 	t.Run("when clientSecret doen't match return error", func(t *testing.T) {
-		var repo = mocks.NewRepository(t)
-		var auth = NewAuthenticator(repo)
+		var fake = mocks.NewRepository(t)
+		var auth = NewAuthenticator(fake)
 		var wrong = "A different client secret"
 
-		repo.
+		fake.
 			On("GetSecretByClientID", clientID).
 			Return("another", nil)
 
@@ -41,12 +41,12 @@ func Test_Authenticator_ValidateCredentials(t *testing.T) {
 		assert.ErrorIs(t, actualErr, &InvalidCredentialsError{})
 	})
 
-	t.Run("when repository returns error return the error", func(t *testing.T) {
-		var repo = mocks.NewRepository(t)
-		var auth = NewAuthenticator(repo)
+	t.Run("when fake returns error return the error", func(t *testing.T) {
+		var fake = mocks.NewRepository(t)
+		var auth = NewAuthenticator(fake)
 		var err = errors.New("a random error")
 
-		repo.
+		fake.
 			On("GetSecretByClientID", clientID).
 			Return("", err)
 
@@ -56,10 +56,10 @@ func Test_Authenticator_ValidateCredentials(t *testing.T) {
 	})
 
 	t.Run("when credentials match return no error", func(t *testing.T) {
-		var repo = mocks.NewRepository(t)
-		var auth = NewAuthenticator(repo)
+		var fake = mocks.NewRepository(t)
+		var auth = NewAuthenticator(fake)
 
-		repo.
+		fake.
 			On("GetSecretByClientID", clientID).
 			Return(clientSecret, nil)
 
