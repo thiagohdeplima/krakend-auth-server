@@ -1,13 +1,12 @@
 package server
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
 	"github.com/thiagohdeplima/krakend-auth-server/internal/usecase"
 )
-
-const TOKEN_PATH = "/token"
 
 type HTTPServer interface {
 	Run(http.ResponseWriter, *http.Request)
@@ -23,16 +22,21 @@ func NewServer(uc usecase.IssueToken, handler http.Handler) HTTPServer {
 }
 
 func (s *Server) Run(w http.ResponseWriter, req *http.Request) {
-	if req.URL.Path != TOKEN_PATH {
-		s.handler.ServeHTTP(w, req)
-		return
-	}
+	switch req.URL.Path {
+	case "/oauth/token":
+		s.serveToken(w, req)
 
-	s.serveToken(w, req)
+	default:
+		w.WriteHeader(404)
+		s.handler.ServeHTTP(w, req)
+	}
 }
 
 func (s *Server) serveToken(w http.ResponseWriter, req *http.Request) {
-	resp, err := s.usecase.Run(req.Context(), "abc123", "abc123")
+	resp, _ := s.usecase.Run(req.Context(), "abc123", "abc123")
 
-	fmt.Fprintf(w, "%+v --> %+v", resp, err)
+	encoded, _ := json.Marshal(resp)
+
+	w.Header().Add("Content-Type", "application/json")
+	fmt.Fprint(w, string(encoded))
 }
