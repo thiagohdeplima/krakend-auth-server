@@ -15,7 +15,7 @@ func Test_Authenticator_ValidateCredentials(t *testing.T) {
 	var clientSecret = "clientSecret"
 
 	t.Run("when clientID doesn't exists returns error", func(t *testing.T) {
-		var fake = mocks.NewRepository(t)
+		var fake = mocks.NewClientSecretRepository(t)
 		var auth = NewAuthenticator(fake)
 
 		fake.
@@ -28,7 +28,7 @@ func Test_Authenticator_ValidateCredentials(t *testing.T) {
 	})
 
 	t.Run("when clientSecret doen't match return error", func(t *testing.T) {
-		var fake = mocks.NewRepository(t)
+		var fake = mocks.NewClientSecretRepository(t)
 		var auth = NewAuthenticator(fake)
 		var wrong = "A different client secret"
 
@@ -42,7 +42,7 @@ func Test_Authenticator_ValidateCredentials(t *testing.T) {
 	})
 
 	t.Run("when fake returns error return the error", func(t *testing.T) {
-		var fake = mocks.NewRepository(t)
+		var fake = mocks.NewClientSecretRepository(t)
 		var auth = NewAuthenticator(fake)
 		var err = errors.New("a random error")
 
@@ -56,7 +56,7 @@ func Test_Authenticator_ValidateCredentials(t *testing.T) {
 	})
 
 	t.Run("when credentials match return no error", func(t *testing.T) {
-		var fake = mocks.NewRepository(t)
+		var fake = mocks.NewClientSecretRepository(t)
 		var auth = NewAuthenticator(fake)
 
 		fake.

@@ -15,7 +15,7 @@ func Test_TokenEmissor_EmitToken(t *testing.T) {
 	var clientID = "clientID"
 
 	t.Run("when repository returns error return error", func(t *testing.T) {
-		var repo = mocks.NewIssuerRepository(t)
+		var repo = mocks.NewKeypairRepository(t)
 		var issr = issuer.NewTokenEmissor(repo)
 		var err = errors.New("It is an error")
 
@@ -29,7 +29,7 @@ func Test_TokenEmissor_EmitToken(t *testing.T) {
 	})
 
 	t.Run("when private key is empty return error", func(t *testing.T) {
-		var repo = mocks.NewIssuerRepository(t)
+		var repo = mocks.NewKeypairRepository(t)
 		var issr = issuer.NewTokenEmissor(repo)
 
 		repo.
@@ -42,7 +42,7 @@ func Test_TokenEmissor_EmitToken(t *testing.T) {
 	})
 
 	t.Run("when private key is empty return error", func(t *testing.T) {
-		var repo = mocks.NewIssuerRepository(t)
+		var repo = mocks.NewKeypairRepository(t)
 		var issr = issuer.NewTokenEmissor(repo)
 
 		repo.
@@ -55,7 +55,7 @@ func Test_TokenEmissor_EmitToken(t *testing.T) {
 	})
 
 	t.Run("when repo returns valid keys return sucessful response", func(t *testing.T) {
-		var repo = mocks.NewIssuerRepository(t)
+		var repo = mocks.NewKeypairRepository(t)
 		var issr = issuer.NewTokenEmissor(repo)
 
 		priKey, _ := os.ReadFile("../../test/data/id_ecdsa")
