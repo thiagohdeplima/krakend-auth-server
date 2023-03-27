@@ -4,11 +4,13 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/thiagohdeplima/krakend-auth-server/cmd/plugin/server"
+
+	"github.com/thiagohdeplima/krakend-auth-server/internal/repo/fake"
+	"github.com/thiagohdeplima/krakend-auth-server/internal/usecase"
+
 	"github.com/thiagohdeplima/krakend-auth-server/internal/auth"
 	"github.com/thiagohdeplima/krakend-auth-server/internal/issuer"
-	"github.com/thiagohdeplima/krakend-auth-server/internal/repo/fake"
-	"github.com/thiagohdeplima/krakend-auth-server/internal/server"
-	"github.com/thiagohdeplima/krakend-auth-server/internal/usecase"
 )
 
 type registerer string
