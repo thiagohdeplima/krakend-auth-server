@@ -18,8 +18,7 @@ services:
     - sh
     - -c
     - |
-      go get
-      cd cmd/authentication
+      cd cmd/authentication && go get
       go build -buildmode=plugin -o /app/authentication.so .
 
   server:
