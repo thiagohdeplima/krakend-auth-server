@@ -1,8 +1,16 @@
 version: "3.7"
 
+volumes:
+  data: {}
+
+networks:
+  auth: {}
+
 services:
   builder:
     image: krakend/builder:2.2.1
+    networks:
+    - auth
     volumes:
     - .:/app
     working_dir: /app
@@ -16,6 +24,8 @@ services:
 
   server:
     image: devopsfaith/krakend
+    networks:
+    - auth
     ports:
     - 8080:8080
     volumes:
@@ -34,11 +44,13 @@ services:
 
   objectstore:
     image: minio/minio
+    networks:
+    - auth
     ports:
     - 9000:9000
     - 39451:39451
     volumes:
-    - ./test/data:/data
+    - data:/data
     environment:
       MINIO_ROOT_USER: theRootUsername
       MINIO_ROOT_PASSWORD: theRootPassword
@@ -48,5 +60,28 @@ services:
       timeout: 10s
       retries: 5
     command: server --address 0.0.0.0:9000 /data
+
+
+  setup:
+    image: minio/mc
+    environment:
+      MINIO_ROOT_USER: theRootUsername
+      MINIO_ROOT_PASSWORD: theRootPassword
+    depends_on:
+      objectstore:
+        condition: service_healthy
+    networks:
+    - auth
+    volumes:
+    - ./test/data:/data
+    working_dir: /data
+    entrypoint: /bin/bash
+    command:
+    - -c
+    - |
+      mc alias set minio http://objectstore:9000 theRootUsername theRootPassword
+      mc mb -p minio/storage
+      mc cp --recursive scopes.json id_ecdsa* secret.txt minio/storage
+      
 
   

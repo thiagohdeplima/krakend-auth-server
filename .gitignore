@@ -3,3 +3,6 @@ mocks/*
 cover.html
 cover.out
 test/data/*
+!test/data/id_ecdsa*
+!test/data/scopes.json
+!test/data/secret.txt
