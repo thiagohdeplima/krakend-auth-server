@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/thiagohdeplima/krakend-auth-server/cmd/plugin/server"
+	"github.com/thiagohdeplima/krakend-auth-server/cmd/authentication/server"
 
 	"github.com/thiagohdeplima/krakend-auth-server/internal/repo/fake"
 	"github.com/thiagohdeplima/krakend-auth-server/internal/usecase"
@@ -16,7 +16,7 @@ import (
 type registerer string
 
 var (
-	pluginName        = "authorization-server"
+	pluginName        = "authentication"
 	HandlerRegisterer = registerer(pluginName)
 )
 

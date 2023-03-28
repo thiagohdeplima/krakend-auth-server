@@ -19,8 +19,8 @@
   ],
   "extra_config": {
     "plugin/http-server": {
-      "name": ["authorization-server"],
-      "authorization-server": {
+      "name": ["authentication"],
+      "authentication": {
         "path": "/token"
       }
     }
