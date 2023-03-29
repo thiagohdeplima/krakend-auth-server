@@ -1,7 +1,6 @@
 package fake
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/thiagohdeplima/krakend-auth-server/internal/repo"
@@ -25,8 +24,6 @@ func (r *FakeRepository) GetKeypairByClientID(string) (privkey, pubkey string, _
 
 	priKey, _ := os.ReadFile("/etc/krakend/test/data/id_ecdsa")
 	pubKey, _ := os.ReadFile("/etc/krakend/test/data/id_ecdsa.pub")
-
-	fmt.Println(priKey, pubKey)
 
 	return string(priKey), string(pubKey), nil
 }
