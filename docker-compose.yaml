@@ -19,7 +19,7 @@ services:
     - -c
     - |
       cd cmd/authentication && go get
-      go build -buildmode=plugin -o /app/authentication.so .
+      go build -buildmode=plugin -o /app/plugins/authentication.so .
 
   server:
     image: devopsfaith/krakend

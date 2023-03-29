@@ -2,7 +2,7 @@
   "version": 3,
   "plugin": {
     "pattern": ".so",
-    "folder": "/etc/krakend"
+    "folder": "/etc/krakend/plugins"
   },
   "endpoints": [
     {
@@ -21,7 +21,7 @@
     "plugin/http-server": {
       "name": ["authentication"],
       "authentication": {
-        "path": "/token"
+        "path": "/oauth/token"
       }
     }
   }
