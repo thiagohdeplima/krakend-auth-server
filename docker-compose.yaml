@@ -80,7 +80,7 @@ services:
     - |
       mc alias set minio http://objectstore:9000 theRootUsername theRootPassword
       mc mb -p minio/storage
-      mc cp --recursive scopes.json id_ecdsa* secret.txt minio/storage
+      mc cp --recursive scopes.json id_ecdsa* secret.txt minio/storage/client-id-123/
       
 
   
