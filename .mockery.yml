@@ -1,0 +1,4 @@
+all: true
+case: snake
+inpackage: true
+inpackage-suffix: true

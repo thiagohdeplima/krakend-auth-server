@@ -2,7 +2,7 @@ test: mock
 	go test -v ./...
 
 mock:
-	@go install github.com/vektra/mockery/v2@v2.23.1
+	@go install github.com/vektra/mockery/v2@v2.36.0
 	@~/go/bin/mockery --all
 
 build:

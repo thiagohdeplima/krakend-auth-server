@@ -1,4 +1,3 @@
-mocks/*
 *.so
 cover.html
 cover.out
@@ -7,3 +6,4 @@ test/data/*
 !test/data/scopes.json
 !test/data/secret.txt
 plugins/*
+*_mock.go
