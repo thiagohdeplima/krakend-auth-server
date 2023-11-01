@@ -1,0 +1,48 @@
+@startuml
+
+actor Client as cli
+
+folder "Object Storage" as keys {
+  folder "Client #1" as c1k {
+    file "id_ecdsa"     as pvk
+    file "id_ecdsa.pub" as pbk
+
+  }
+}
+
+folder "Object Storage" as creds {
+  folder "Client #1" as c1c {
+    file "secret.txt" as cls
+    file "scopes.json" as scp
+  }
+}
+
+frame "Authorization Server" {
+  component Server         as srvimpl
+  component Authenticator  as autimpl
+  component Issuer         as issimpl
+  component Usecase        as ucimpl
+
+  component "Keys\nRepository"        as keysimpl
+  component "Credentials\nRepository" as credimpl
+
+
+  cli -left-> srvimpl
+  srvimpl -left-> ucimpl
+  
+  ucimpl --> autimpl
+  ucimpl --> issimpl
+}
+
+issimpl --> keysimpl
+autimpl --> credimpl
+
+keysimpl --> pvk
+keysimpl --> pbk
+credimpl --> cls
+credimpl --> scp
+
+pvk -[#transparent]-> pbk
+cls -[#transparent]-> scp
+
+@enduml

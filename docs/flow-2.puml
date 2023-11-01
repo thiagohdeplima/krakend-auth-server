@@ -1,0 +1,41 @@
+@startuml
+
+!pragma teoz true
+
+skinparam responseMessageBelowArrow true
+
+
+participant "Authorization\nServer" as aus
+participant "Object\nStorage"       as dts
+
+-> aus: ""POST /oauth/token""
+
+aus  -> dts
+
+note over aus
+Validate if ""client_id"" and
+""client_secret"" match
+end note
+
+aus <-- dts
+
+alt valid credentials
+  aus  -> dts: Give me keypair
+  aus <-- dts
+
+  aus  -> dts: Give me scopes
+  aus <-- dts
+
+  note over aus
+    Generate JWT sith given scopes
+    and signed by privkey
+  end note
+
+  aus -->[: ""HTTP/1.1 200""
+else invalid credentials
+  |||
+  aus -->[: ""HTTP/1.1 401""
+end
+
+
+@enduml

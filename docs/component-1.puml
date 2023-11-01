@@ -1,0 +1,36 @@
+@startuml
+
+actor "Client #1" as cli
+
+component Microservice {
+  component KrakenD       as apg
+  component Application   as app
+  component Authorization as aus
+}
+
+folder "Object Storage" as keys {
+  folder "Client #1" as c1k {
+    file "Private Key"   as pvk
+    file "Public Key"    as pbk
+  }
+
+  folder "Client #2" as c2k {
+    file "Private Key"   as pvk2
+    file "Public Key"    as pbk2
+  }
+
+  pvk -[#transparent]-> pvk2
+}
+
+cli --> apg
+apg --> app
+apg --> aus
+
+aus --> pvk
+aus  -> pbk
+
+
+
+
+
+@enduml

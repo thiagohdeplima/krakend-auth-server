@@ -1,0 +1,39 @@
+@startuml
+
+!pragma teoz true
+
+skinparam responseMessageBelowArrow true
+
+actor Client as cli
+
+box Microservice #transparent
+  box KrakenD #transparent
+    participant "API Gateway" as apg
+    participant "Auth Server" as aus
+  end box
+
+  participant Application   as app
+end box
+
+cli -> apg: ""POST /oauth/token""
+apg -> aus:
+note over aus 
+Authentication
+process performed
+end note
+cli <-- aus: ""JWT Token""
+
+|||
+|||
+
+cli -> apg: ""GET /orders""
+note right
+check token validity
+and permissions
+end note
+apg -> app: ""GET /orders""
+
+apg <-- app: ""HTTP/1.1 200 OK""
+cli <-- apg: ""HTTP/1.1 200 OK""
+
+@enduml

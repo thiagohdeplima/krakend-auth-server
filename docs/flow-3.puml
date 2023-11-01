@@ -1,0 +1,34 @@
+@startuml
+
+!pragma teoz true
+
+skinparam responseMessageBelowArrow true
+
+participant "Plugin Externals" as app 
+participant "Repository"       as repo
+participant "Data Source"      as dts
+
+-> app: ""POST /oauth/token""
+
+==Credentials Validation==
+app  -> repo: ""GetClientByID(Id)""
+repo  -> dts: 
+repo <-- dts: ""ClientSecret""
+app <-- repo: ""ClientSecret""
+
+==JWT issuing==
+app   -> repo: ""GetKeypair(Id)""
+repo  -> dts
+repo <-- dts: ""id_ecdsa""
+app  <-- repo: ""id_ecdsa""
+
+app   -> repo: ""GetClientScopes(Id)""
+repo  -> dts
+repo <-- dts: ""scopes""
+app  <-- repo: ""scopes""
+
+app -> app: generate JWT with\nclient scopes signed\nby ""id_ecdsa""
+
+app -->[: ""HTTP/1.1 200 OK""
+
+@enduml
